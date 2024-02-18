@@ -4,33 +4,35 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFFFFFFFF),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/logo.png',
-                width: 250,
-                height: 250,
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFFD2D5D2),
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFFFFFFFF),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 250,
+                  height: 250,
                 ),
-              ),
-              SizedBox(height: 20),
-              LoginForm(),
-            ],
+                SizedBox(height: 30),
+                Text(
+                  'Login',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 20),
+                LoginForm(),
+              ],
+            ),
           ),
         ),
       ),
@@ -96,7 +98,7 @@ class _LoginFormState extends State<LoginForm> {
           children: <Widget>[
             Text(
               "Don't have an account?",
-              style: TextStyle(color: Color(0xFFD2D5D2)),
+              style: TextStyle(color: Colors.black),
             ),
             InkWell(
                 onTap: () {
@@ -105,7 +107,7 @@ class _LoginFormState extends State<LoginForm> {
                 child: Text(
                   " Sign Up",
                   style: TextStyle(
-                    color: Color(0xFFD2D5D2),
+                    color: Colors.black,
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
                   ),
@@ -120,10 +122,10 @@ class _LoginFormState extends State<LoginForm> {
               onPressed: () {
                 print('Username: ${_usernameController.text}');
                 print('Password: ${_passwordController.text}');
-                Navigator.pushReplacementNamed(context, "homepage");
+                Navigator.pushReplacementNamed(context, "interests");
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFbe6d41),
+                backgroundColor: Colors.black,
                 padding: EdgeInsets.all(16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),

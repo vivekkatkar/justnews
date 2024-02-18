@@ -1,42 +1,30 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyNewsApp());
-}
-
-class MyNewsApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false, // Hide debug banner
-      home: NewsScreen(),
-    );
-  }
-}
-
 class NewsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text(
+          'What are you interested in?',
+          style: TextStyle(color: Colors.white),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, "login");
+          },
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
-            child: Center(
-              child: Text(
-                'What are you interested in?',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(50.0),
               child: Container(
+                height: 10,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.0),
                   color: Color(0xFFD2D5D2), // Background color #d2d5d2
@@ -47,31 +35,23 @@ class NewsScreen extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 16.0), // Adjust the horizontal padding as needed
+                horizontal: 16.0, vertical: 11.0), // Adjusted padding
             child: Container(
+              height: 50.0, // Adjusted height
               decoration: BoxDecoration(
-                color: Color(0xFFBE6D41), // Background color
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                  bottomLeft: Radius.circular(20.0),
-                  bottomRight: Radius.circular(20.0),
-                ),
+                color: Colors.black, // Background color
+                borderRadius: BorderRadius.circular(25.0),
               ),
               child: InkWell(
                 onTap: () {
-                  // Handle button tap
+                  Navigator.pushReplacementNamed(context, "homepage");
                 },
                 child: Center(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 9.0),
-                    child: Text(
-                      'Select any 2',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
+                  child: Text(
+                    'Select any Two',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0, // Reduced font size
                     ),
                   ),
                 ),
@@ -100,8 +80,7 @@ class NewsGrid extends StatelessWidget {
             imagePath: 'assets/images/bussiness.jpg',
             newsName: 'Business & Finance'),
         NewsButton(
-            imagePath: 'assets/images/Politics.jpg',
-            newsName: 'Politics'), // Add more buttons as needed
+            imagePath: 'assets/images/Politics.jpg', newsName: 'Politics'),
         NewsButton(
             imagePath: 'assets/images/International.png',
             newsName: 'International'),
@@ -123,15 +102,16 @@ class NewsButton extends StatelessWidget {
         // Handle button tap
       },
       child: Container(
-        padding: EdgeInsets.all(0.3), // Adjust the padding as needed
+        padding: EdgeInsets.all(8.0), // Adjust the padding as needed
         child: Container(
           child: FractionallySizedBox(
-            widthFactor: 0.7,
-            heightFactor: 0.7,
+            widthFactor: 0.8, // Adjusted width factor
+            heightFactor: 0.8, // Adjusted height factor
             child: AspectRatio(
-              aspectRatio: 1.1,
+              aspectRatio: 1.2, // Adjusted aspect ratio
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius:
+                    BorderRadius.circular(8.0), // Adjusted border radius
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -150,7 +130,9 @@ class NewsButton extends StatelessWidget {
                         color: Colors.black54.withOpacity(0.5),
                         child: Text(
                           newsName,
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14), // Reduced font size
                         ),
                       ),
                     ),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'register.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/cupertino.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'category.dart';
+import 'popular.dart';
 
 class homm extends StatefulWidget {
   @override
@@ -27,7 +30,7 @@ class _hommState extends State<homm> {
                   Container(
                     //padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                        color: Color(0xFFbe6d41),
+                        color: Colors.black,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
@@ -81,39 +84,151 @@ class _hommState extends State<homm> {
                 ],
               ),
             ),
+
+            //Carouselslider
+            Container(
+                child: Column(children: [
+              Padding(
+                padding: EdgeInsets.only(left: 10, right: 10, bottom: 3),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Latest News",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      "See All",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 1),
+                    //height: 300,
+                    width: 500,
+                    child: Column(
+                      children: [
+                        CarouselSlider(
+                          items: [
+                            Container(
+                              width: 400,
+                              margin: EdgeInsets.all(6.0),
+                              decoration: BoxDecoration(
+                                // borderRadius: BorderRadius.circular(15.0),
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/img1.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 400,
+                              margin: EdgeInsets.all(6.0),
+                              decoration: BoxDecoration(
+                                // borderRadius: BorderRadius.circular(15.0),
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/img2.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 400,
+                              margin: EdgeInsets.all(6.0),
+                              decoration: BoxDecoration(
+                                //borderRadius: BorderRadius.circular(15.0),
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/img3.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 400,
+                              margin: EdgeInsets.all(6.0),
+                              decoration: BoxDecoration(
+                                //borderRadius: BorderRadius.circular(15.0),
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/img4.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 400,
+                              margin: EdgeInsets.all(6.0),
+                              decoration: BoxDecoration(
+                                // borderRadius: BorderRadius.circular(15.0),
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/img5.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ],
+                          options: CarouselOptions(
+                            height: 220.0,
+                            enlargeCenterPage: true,
+                            autoPlay: true,
+                            aspectRatio: 16 / 9,
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enableInfiniteScroll: true,
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 600),
+                            viewportFraction: 1.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ))
+            ])),
+
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CategoriesWidget(),
+                  PopularItemsWidget(),
+                ],
+              ),
+            ),
+
+            // Container(
+            //   padding: EdgeInsets.only(top: 20),
+            //   decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       borderRadius: BorderRadius.only(
+            //           topLeft: Radius.circular(30),
+            //           topRight: Radius.circular(30))),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       //CategoriesWidget(),
+            //       PopularItemsWidget(),
+            //     ],
+            //   ),
+            // )
           ],
         ),
       )),
-    );
-    throw UnimplementedError();
-  }
-}
-
-class favourite extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: Text(
-        "Favourite",
-        style: TextStyle(color: Colors.blueGrey, fontSize: 30),
-      )),
-      backgroundColor: Colors.white,
-    );
-    throw UnimplementedError();
-  }
-}
-
-class profile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: Text(
-        "Profile",
-        style: TextStyle(color: Colors.blueGrey, fontSize: 30),
-      )),
-      backgroundColor: Colors.white,
     );
     throw UnimplementedError();
   }

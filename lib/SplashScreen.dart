@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:justnews/user_admin.dart';
 import 'Login.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(Duration(seconds: 5), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => Login(),
+        builder: (context) => user_admin(),
       ));
     });
   }
@@ -21,13 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFbe6d41), // Set your background color
+      backgroundColor: Colors.white, // Set your background color
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Replace this with your logo
-            Image.asset('assets/images/logo.png', width: 300, height: 300),
+            Image.asset('assets/images/logo.gif', width: 300, height: 300),
           ],
         ),
       ),

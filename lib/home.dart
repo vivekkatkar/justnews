@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:justnews/termsConditions.dart';
 import 'first.dart';
+import 'profile.dart';
 
 class home extends StatefulWidget {
   @override
@@ -12,14 +14,14 @@ class _homestate extends State<home> {
   int tabindex = 0;
   var tabpages = [
     homm(),
-    favourite(),
-    profile(),
+    CreatePostPage(),
+    Profile(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Yoga",
+      title: "JUSTNEWS",
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         bottomNavigationBar: Container(
@@ -32,13 +34,13 @@ class _homestate extends State<home> {
                 bottomRight: Radius.circular(30.0)),
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              selectedItemColor: Color(0xFFbe6d41),
-              unselectedItemColor: Color(0xFFbe6d41),
+              selectedItemColor: Colors.black,
+              unselectedItemColor: Colors.grey,
               backgroundColor: Color(0xFFD2D5D2),
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite), label: "Favourite"),
+                    icon: Icon(Icons.add_box_outlined), label: "Post"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Profile"),
               ],
