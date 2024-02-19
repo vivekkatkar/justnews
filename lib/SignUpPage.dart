@@ -19,11 +19,13 @@ class _SignUpPageState extends State<SignUpPage> {
     final ref = FirebaseDatabase.instance.ref("Users");
 
     void addUser(){
-        String id = DateTime.now().millisecondsSinceEpoch.toString();
+        String id = _auth.currentUser!.uid.toString();
+
           ref.child(id).set({
             'id' : id,
             'name' : _usernameController.text.toString(),
             'email' : _emailController.text.toString(),
+            'postcnt' : 0,
           }
           ).then((value) {
             // Fluttertoast.showToast(msg: "Added");
@@ -42,6 +44,11 @@ class _SignUpPageState extends State<SignUpPage> {
           email: _emailController.text.toString(),
           password: _passwordController.text.toString(),
       ).then((value) {
+        _auth.signInWithEmailAndPassword(
+          email: _usernameController.text.toString(),
+          password: _passwordController.text.toString(),
+        );
+
         addUser();
       }).onError((error, stackTrace) {
         print("Error Occered");

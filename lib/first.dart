@@ -47,13 +47,14 @@ class _hommState extends State<homm> {
                         "3",
                         style: TextStyle(color: Colors.white),
                       ),
-                      child: InkWell(
-                        child: Icon(
-                          CupertinoIcons.bell,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child:Container(),
+                      // InkWell(
+                      //   child: Icon(
+                      //     CupertinoIcons.bell,
+                      //     size: 30,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
                     ),
                   )
                 ],

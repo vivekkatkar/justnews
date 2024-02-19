@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'home.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
@@ -12,6 +15,38 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final _auth = FirebaseAuth.instance;
+  final _ref = FirebaseDatabase.instance.ref("Users");
+  String userid = " ";
+  Map<dynamic, dynamic> mp = {};
+
+  Future<void> getUser() async {
+    final User? user = _auth.currentUser;
+    userid = user!.uid.toString();
+
+        final dbRef = await FirebaseDatabase.instance.ref().child("Users").child(userid);
+
+    dbRef.onValue.listen((event) {
+      event.snapshot.children.forEach((child) {
+        print(child.value);
+        mp[child.key] = child.value.toString();
+      });
+
+      print("Hello World");
+      setState(() {
+
+      });
+    });
+
+ }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -84,9 +119,9 @@ class _ProfileState extends State<Profile> {
           SizedBox(
             height: 20,
           ),
-          Text("Username",
+          Text(mp["name"] == null ? " no data " : mp["name"] ,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
-          Text("10", style: TextStyle(fontSize: 15)),
+          Text(mp["postcnt"] == null ? " no data " : mp["postcnt"], style: TextStyle(fontSize: 15)),
           Text("posts",
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
         ],

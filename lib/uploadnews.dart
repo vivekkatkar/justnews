@@ -1,5 +1,12 @@
+import 'dart:io';
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'home.dart';
 
 class NewsPostScreen extends StatefulWidget {
@@ -15,15 +22,66 @@ class _NewsPostScreenState extends State<NewsPostScreen> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
-  void pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+  File? _image;
+  final picker = ImagePicker();
 
-    if (result != null && result.files.isNotEmpty) {
-      setState(() {
-        filePath = result.files.first.path;
-      });
-    }
+  Future getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+    setState(() {
+      if(pickedFile != null){
+        _image = File(pickedFile.path);
+      }else{
+        print("No Image Picked");
+      }
+      
+    });
   }
+
+  final _auth = FirebaseAuth.instance;
+  final _ref = FirebaseDatabase.instance.ref("Posts");
+  firebase_storage.FirebaseStorage _storage = firebase_storage.FirebaseStorage.instance;
+
+
+  void addPost() async {
+    final User? user = _auth.currentUser;
+    String userid = user!.uid!.toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    String n = "/" + userid;
+    firebase_storage.Reference store_ref = firebase_storage.FirebaseStorage.instance.ref(n+id);
+
+    firebase_storage.UploadTask uploadTask = store_ref.putFile(_image!.absolute);
+    await Future.value(uploadTask);
+
+    final newUrl = await store_ref.getDownloadURL();
+
+    _ref.child(userid).child(id).set(
+      {
+        'postid' : id,
+        'headline' : headlineController.text.toString(),
+        'desc' : descriptionController.text.toString(),
+        'date' : selectedDate.toString(),
+        'time' : selectedTime.toString(),
+        'filepath' : newUrl.toString(),
+        'isAccepeted' : false,
+      }
+    ).then((value) {
+      print("Post Added to Database");
+    }).catchError((error, stackTrace){
+      print(error.toString());
+    });
+  }
+
+
+
+  // void pickFile() async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
+  //
+  //   if (result != null && result.files.isNotEmpty) {
+  //     setState(() {
+  //       filePath = result.files.first.path;
+  //     });
+  //   }
+  // }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -154,26 +212,17 @@ class _NewsPostScreenState extends State<NewsPostScreen> {
               ),
               SizedBox(height: 16),
               InkWell(
-                onTap: pickFile,
+                onTap: (){
+                  getImage();
+                },
                 child: Container(
-                  height: 100,
+                  height: 150,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Center(
-                    child: filePath != null
-                        ? Text(
-                            'File Selected: $filePath',
-                            textAlign: TextAlign.center,
-                          )
-                        : Icon(
-                            Icons.cloud_upload,
-                            size: 48,
-                            color: Colors.grey,
-                          ),
-                  ),
+                  child: _image == null ? Icon(Icons.image) : Image.file(_image!.absolute),
                 ),
               ),
               SizedBox(height: 16),
@@ -198,9 +247,12 @@ class _NewsPostScreenState extends State<NewsPostScreen> {
                   width: 200, // Adjust the width as needed
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => home()),
-                      );
+
+                      addPost();
+
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(builder: (context) => home()),
+                      // );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.black,
