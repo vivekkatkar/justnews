@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -10,8 +12,43 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
-  TextEditingController _mobileController = TextEditingController();
-  TextEditingController _otpController = TextEditingController();
+  // TextEditingController _mobileController = TextEditingController();
+  // TextEditingController _otpController = TextEditingController();
+
+    final _auth = FirebaseAuth.instance;
+    final ref = FirebaseDatabase.instance.ref("Users");
+
+    void addUser(){
+        String id = DateTime.now().millisecondsSinceEpoch.toString();
+          ref.child(id).set({
+            'id' : id,
+            'name' : _usernameController.text.toString(),
+            'email' : _emailController.text.toString(),
+          }
+          ).then((value) {
+            // Fluttertoast.showToast(msg: "Added");
+            print('Data Added');
+
+            Navigator.pushReplacementNamed(context, "interests");
+          }).catchError((error, stackTrace) {
+            // Fluttertoast.showToast(msg: "Error");
+            print('Error');
+          });
+    }
+
+  void signUp(){
+    if(_formKey.currentState!.validate()){
+      _auth.createUserWithEmailAndPassword(
+          email: _emailController.text.toString(),
+          password: _passwordController.text.toString(),
+      ).then((value) {
+        addUser();
+      }).onError((error, stackTrace) {
+        print("Error Occered");
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,44 +152,45 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                 ),
                 SizedBox(height: 16),
-                buildTextField(
-                  controller: _mobileController,
-                  labelText: 'Mobile Number',
-                  keyboardType: TextInputType.phone,
-                  icon: Icons.phone,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a mobile number';
-                    } else if (value.length != 10) {
-                      return 'Mobile number must be 10 digits long';
-                    }
-                    return null;
-                  },
-                ),
+                // buildTextField(
+                //   controller: _mobileController,
+                //   labelText: 'Mobile Number',
+                //   keyboardType: TextInputType.phone,
+                //   icon: Icons.phone,
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'Please enter a mobile number';
+                //     } else if (value.length != 10) {
+                //       return 'Mobile number must be 10 digits long';
+                //     }
+                //     return null;
+                //   },
+                // ),
                 SizedBox(height: 16),
-                buildTextField(
-                  controller: _otpController,
-                  labelText: 'OTP',
-                  keyboardType: TextInputType.number,
-                  icon: Icons.security,
-                  validator: (value) {
-                    // Add OTP validation if needed
-                    return null;
-                  },
-                ),
+                // buildTextField(
+                //   controller: _otpController,
+                //   labelText: 'OTP',
+                //   keyboardType: TextInputType.number,
+                //   icon: Icons.security,
+                //   validator: (value) {
+                //     // Add OTP validation if needed
+                //     return null;
+                //   },
+                // ),
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Form is valid, perform sign-up logic here
-                      // For now, just print the form values
-                      print('Username: ${_usernameController.text}');
-                      print('Password: ${_passwordController.text}');
-                      print('Email: ${_emailController.text}');
-                      print('Mobile Number: ${_mobileController.text}');
-                      print('OTP: ${_otpController.text}');
-                      showSnackBar(context, 'Sign up successful!');
-                    }
+                    signUp();
+                    // if (_formKey.currentState!.validate()) {
+                    //   // Form is valid, perform sign-up logic here
+                    //   // For now, just print the form values
+                    //   print('Username: ${_usernameController.text}');
+                    //   print('Password: ${_passwordController.text}');
+                    //   print('Email: ${_emailController.text}');
+                    //   print('Mobile Number: ${_mobileController.text}');
+                    //   print('OTP: ${_otpController.text}');
+                    //   showSnackBar(context, 'Sign up successful!');
+                    // }
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black, // Background color
