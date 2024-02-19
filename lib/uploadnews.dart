@@ -33,7 +33,6 @@ class _NewsPostScreenState extends State<NewsPostScreen> {
       }else{
         print("No Image Picked");
       }
-      
     });
   }
 
@@ -62,7 +61,7 @@ class _NewsPostScreenState extends State<NewsPostScreen> {
         'date' : selectedDate.toString(),
         'time' : selectedTime.toString(),
         'filepath' : newUrl.toString(),
-        'isAccepeted' : false,
+        'isAccepeted' : "false",
       }
     ).then((value) {
       print("Post Added to Database");
